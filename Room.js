@@ -74,9 +74,9 @@ class Room {
    * @param member {object} sender of message
    * */
 
-  reply (data) {
+  reply(data) {
     for (let member of this.members) {
-      if (member.name === data.name) {
+      if (member.name === data.userName) {
         member.send(JSON.stringify(data));
       }
     }

@@ -69,11 +69,35 @@ class ChatUser {
 
   handleJoke() {
     this.room.reply({
-      name: this.name,
+      userName: this.name,
+      name: "server",
       type: "chat",
       text: "What do you call eight hobbits? A hob-byte!",
     });
-}
+  }
+
+  convertToString(data) {
+    let stringData = Array.from(data);
+
+    console.log(stringData, "stringDATA");
+    console.log(stringData.join(""), "joined result");
+
+    return stringData.join("");
+  }
+
+  handleMemberList() {
+    let members = this.room.members;
+    console.log(members, "members");
+
+    let listMembers = this.convertToString(members);
+
+    this.room.reply({
+      userName: this.name,
+      name: "server",
+      type: "chat",
+      text: listMembers,
+    });
+  }
 
   /** Handle messages from client:
    *
@@ -91,6 +115,7 @@ class ChatUser {
 
     if (msg.type === "join") this.handleJoin(msg.name);
     else if (msg.type === "chat") this.handleChat(msg.text);
+    else if (msg.type === "get-members") this.handleMemberList();
     else if (msg.type === "get-joke") this.handleJoke();
     else throw new Error(`bad message: ${msg.type}`);
   }
